@@ -65,12 +65,12 @@ CLIBS 				=
 # Rules configuration
 # ====================
 .PHONY: 	help build clean 																				\
-					install install-headers install-library install-sources \
-					remove remove-headers remove-library remove-sources
+	install install-headers install-library install-sources \
+	remove remove-headers remove-library remove-sources
 
 .SILENT:	help build clean 																				\
-					install install-headers install-library install-sources \
-					remove remove-headers remove-library remove-sources
+	install install-headers install-library install-sources \
+	remove remove-headers remove-library remove-sources
 
 
 
@@ -134,9 +134,6 @@ install-headers:
 			@echo "[*] Copying 3DGeo classes headers"
 			mkdir -p $(INSTALL_INCLUDE)
 			cp -r $(PATH_INCLUDE) $(INSTALL_INCLUDE)
-
-			@echo "[*] Copying 3DGeo quick headers"
-			cp $(QUICK_INCLUDES) $(INSTALL_INCLUDE)/KNM
 
 install-library:
 			@echo "[*] Copying 3DGEo library"

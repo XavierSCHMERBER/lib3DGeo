@@ -97,10 +97,14 @@ double Angle::RadToDeg(double rad)
 
 void Angle::simplify()
 {
-    while (_val > ANGLE_MAX_VALUE)
-        _val -= ANGLE_MAX_VALUE;
-    while (_val < -ANGLE_MAX_VALUE)
-        _val += ANGLE_MAX_VALUE;
+    while (_val > 2 * ANGLE_MAX_VALUE)
+        _val -= (2 * ANGLE_MAX_VALUE);
+    while (_val < 2 * (-ANGLE_MAX_VALUE))
+        _val += (2 * ANGLE_MAX_VALUE);
+    if (_val > ANGLE_MAX_VALUE)
+        _val -= 2 * ANGLE_MAX_VALUE;
+    else if (_val < -ANGLE_MAX_VALUE)
+        _val += 2 * ANGLE_MAX_VALUE;
 }
 
 int Angle::convert(double rad) const

@@ -10,6 +10,10 @@
 
 #include <3DGeo/gps.hh>
 
+#include <string>
+#include <iostream>
+#include <sstream>
+
 using namespace std;
 
 /*!
@@ -23,6 +27,7 @@ class Position
 private: // defs
 #define MAX_DIST        100000                  // Maximum distance without update in mm
 #define UBUFF_MAX       1000                    // Maximum value of _uBuff without _buff update
+#define GEO_SEP_CHAR    ';'
 
 private: // vars
     Gps     _ref;                               // Absolute position reference
@@ -78,6 +83,9 @@ public: // interface
      * \return the updated Position
      */
     Position &operator=(const Position &b);     // Assign from position
+
+    string Serialize();
+    void UnSerialize(string val);
 
 private: // internals
     bool chooseUpdate();                        // Choose to update GPS coordinate or not (depend on MAX_DIST)

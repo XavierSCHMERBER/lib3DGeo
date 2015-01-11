@@ -67,6 +67,66 @@ Position &Position::operator=(const Position &b)
     return (*this);
 }
 
+string Position::Serialize()
+{
+    stringstream stream;
+
+    stream << _ref.Lat();
+    stream << GEO_SEP_CHAR;
+    stream << _ref.Lon();
+    stream << GEO_SEP_CHAR;
+    stream << _ref.Alt();
+
+    stream << GEO_SEP_CHAR;
+    stream << _buff.X();
+    stream << GEO_SEP_CHAR;
+    stream << _buff.Y();
+    stream << GEO_SEP_CHAR;
+    stream << _buff.Z();
+
+    stream << GEO_SEP_CHAR;
+    stream << _uBuff.X();
+    stream << GEO_SEP_CHAR;
+    stream << _uBuff.Y();
+    stream << GEO_SEP_CHAR;
+    stream << _uBuff.Z();
+
+    return (stream.str());
+}
+
+void Position::UnSerialize(string val)
+{
+    double gps[3];
+    int buff[3];
+    int ubuff[3];
+
+    istringstream stream(val);
+
+    stream >> gps[0];
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> gps[1];
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> gps[2];
+
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> buff[0];
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> buff[1];
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> buff[2];
+
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> ubuff[0];
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> ubuff[1];
+    stream.ignore(1, GEO_SEP_CHAR);
+    stream >> ubuff[2];
+
+    _ref = Gps(gps[0], gps[1], gps[2]);
+    _buff = Vect(buff[0], buff[1], buff[2]);
+    _uBuff = Vect(ubuff[0], ubuff[1], ubuff[2]);
+}
+
 bool Position::chooseUpdate()
 {
     Vect tmpBuff;

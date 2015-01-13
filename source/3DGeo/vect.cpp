@@ -120,6 +120,34 @@ int Vect::Z() const
     return (_z);
 }
 
+string Vect::Serialize()
+{
+    stringstream stream;
+
+    stream << _x;
+    stream << GEO_SEP_CHAR;
+    stream << _y;
+    stream << GEO_SEP_CHAR;
+    stream << _z;
+
+    return (stream.str());
+}
+
+void Vect::UnSerialize(istringstream *stream)
+{
+    int vect[3];
+
+    (*stream) >> vect[0];
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    (*stream) >> vect[1];
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    (*stream) >> vect[2];
+
+    _x = vect[0];
+    _y = vect[1];
+    _z = vect[2];
+}
+
 ostream &operator<<(ostream& os, const Vect& x)
 {
     os << "{" << x.X() << "; " << x.Y() << "; " << x.Z() << "}";

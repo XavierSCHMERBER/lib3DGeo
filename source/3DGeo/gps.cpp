@@ -88,6 +88,34 @@ Gps &Gps::operator=(const Gps &b)
     return (*this);
 }
 
+string Gps::Serialize()
+{
+    stringstream stream;
+
+    stream << _lat;
+    stream << GEO_SEP_CHAR;
+    stream << _lon;
+    stream << GEO_SEP_CHAR;
+    stream << _alt;
+
+    return (stream.str());
+}
+
+void Gps::UnSerialize(istringstream *stream)
+{
+    double gps[3];
+
+    (*stream) >> gps[0];
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    (*stream) >> gps[1];
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    (*stream) >> gps[2];
+
+    _lat = gps[0];
+    _lon = gps[1];
+    _alt = gps[2];
+}
+
 ostream &operator<<(ostream& os, const Gps& x)
 {
     os << "{" << x.Lat() << " N; " << x.Lon() << " E; " << x.Alt() << "}";

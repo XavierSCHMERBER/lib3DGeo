@@ -95,6 +95,24 @@ double Angle::RadToDeg(double rad)
     return ((double)180 * rad / M_PI);
 }
 
+string Angle::Serialize()
+{
+    stringstream stream;
+
+    stream << _val;
+
+    return (stream.str());
+}
+
+void Angle::UnSerialize(istringstream *stream)
+{
+    int value;
+
+    (*stream) >> value;
+
+    _val = value;
+}
+
 void Angle::simplify()
 {
     while (_val > 2 * ANGLE_MAX_VALUE)

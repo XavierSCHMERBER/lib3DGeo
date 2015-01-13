@@ -9,6 +9,7 @@
  */
 
 #include <3DGeo/gps.hh>
+#include <3DGeo/ISerializable.hh>
 
 #include <string>
 #include <iostream>
@@ -22,12 +23,11 @@ using namespace std;
  *  - Implements a buffer system to reduce calculation cost and improve precision
  *  - Provides basic operations to manipulate positions
  */
-class Position
+class Position : public ISerializable
 {
 private: // defs
 #define MAX_DIST        100000                  // Maximum distance without update in mm
 #define UBUFF_MAX       1000                    // Maximum value of _uBuff without _buff update
-#define GEO_SEP_CHAR    ';'
 
 private: // vars
     Gps     _ref;                               // Absolute position reference
@@ -84,8 +84,9 @@ public: // interface
      */
     Position &operator=(const Position &b);     // Assign from position
 
-    string Serialize();
-    void UnSerialize(string val);
+    virtual string Serialize();                 // Give string representation of the object
+    virtual void UnSerialize(istringstream *stream);                   // Load object from a stream
+    virtual void UnSerialize(string val) { ISerializable::UnSerialize(val); } // Load object from string
 
 private: // internals
     bool chooseUpdate();                        // Choose to update GPS coordinate or not (depend on MAX_DIST)

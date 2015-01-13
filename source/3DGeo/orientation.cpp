@@ -96,6 +96,34 @@ Orientation Orientation::operator/(const int &b) const
     return (ret);
 }
 
+string Orientation::Serialize()
+{
+    stringstream stream;
+
+    stream << _x.Serialize();
+    stream << GEO_SEP_CHAR;
+    stream << _y.Serialize();
+    stream << GEO_SEP_CHAR;
+    stream << _z.Serialize();
+
+    return (stream.str());
+}
+
+void Orientation::UnSerialize(istringstream *stream)
+{
+    Angle angles[3];
+
+    angles[0].UnSerialize(stream);
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    angles[1].UnSerialize(stream);
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    angles[2].UnSerialize(stream);
+
+    _x = angles[0];
+    _y = angles[1];
+    _z = angles[2];
+}
+
 ostream &operator<<(ostream& os, const Orientation& x)
 {
     os << "{" << x.X() << "; " << x.Y() << "; " << x.Z() << "}";

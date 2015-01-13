@@ -3,10 +3,11 @@
 
 #include <3DGeo/angle.hh>
 #include <3DGeo/vect.hh>
+#include <3DGeo/ISerializable.hh>
 
 using namespace std;
 
-class Orientation
+class Orientation : public ISerializable
 {
 private: // defs
 #define AXIS_ANGLE_DIFF             (M_PI / 2.0)
@@ -66,6 +67,10 @@ public: // interface
      * \return new modified orientation
      */
     Orientation operator/(const int &b) const;                              // Divide an orientation by a number
+
+    virtual string Serialize();                 // Give string representation of the object
+    virtual void UnSerialize(istringstream *stream);                   // Load object from a stream
+    virtual void UnSerialize(string val) { ISerializable::UnSerialize(val); } // Load object from string
 };
 ostream &operator<<(ostream& os, const Orientation& x);
 

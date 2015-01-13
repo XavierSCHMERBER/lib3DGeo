@@ -9,6 +9,7 @@
  */
 
 #include <3DGeo/vect.hh>
+#include <3DGeo/ISerializable.hh>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ using namespace std;
  *  - The class is designed to make GPS coordinates manipulation easier
  *  - Contains GPS coordinates and allows basic operations
  */
-class Gps
+class Gps : public ISerializable
 {
 private: // defs
 #define EARTH_RADIUS        (double)6371        // in km
@@ -77,6 +78,10 @@ public: // interface
      * \return the modified GPS class
      */
     Gps &operator=(const Gps &b);               // Assignement operator overload
+
+    virtual string Serialize();                 // Give string representation of the object
+    virtual void UnSerialize(istringstream *stream);                   // Load object from a stream
+    virtual void UnSerialize(string val) { ISerializable::UnSerialize(val); } // Load object from string
 };
 
 /*!

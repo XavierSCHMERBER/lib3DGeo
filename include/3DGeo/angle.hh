@@ -2,11 +2,12 @@
 #define ANGLE_HH
 
 #include <3DGeo/maths.hh>
+#include <3DGeo/ISerializable.hh>
 #include <iostream>
 
 using namespace std;
 
-class Angle
+class Angle : public ISerializable
 {
 private: // defs
 #define ANGLE_CONVERSION        1000000                             // The value used to store angle into integer
@@ -69,6 +70,10 @@ public:
 
     static double DegToRad(double deg);                     // Convert degrees to radians
     static double RadToDeg(double rad);                     // Convert radians to degrees
+
+    virtual string Serialize();                 // Give string representation of the object
+    virtual void UnSerialize(istringstream *stream);                   // Load object from a stream
+    virtual void UnSerialize(string val) { ISerializable::UnSerialize(val); } // Load object from string
 
 private: // internals
     void simplify();                                        // Simplify value to be under ANGLE_MAX_VALUE limit

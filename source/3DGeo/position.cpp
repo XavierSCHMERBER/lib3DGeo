@@ -71,60 +71,30 @@ string Position::Serialize()
 {
     stringstream stream;
 
-    stream << _ref.Lat();
+    stream << _ref.Serialize();
     stream << GEO_SEP_CHAR;
-    stream << _ref.Lon();
+    stream << _buff.Serialize();
     stream << GEO_SEP_CHAR;
-    stream << _ref.Alt();
-
-    stream << GEO_SEP_CHAR;
-    stream << _buff.X();
-    stream << GEO_SEP_CHAR;
-    stream << _buff.Y();
-    stream << GEO_SEP_CHAR;
-    stream << _buff.Z();
-
-    stream << GEO_SEP_CHAR;
-    stream << _uBuff.X();
-    stream << GEO_SEP_CHAR;
-    stream << _uBuff.Y();
-    stream << GEO_SEP_CHAR;
-    stream << _uBuff.Z();
+    stream << _uBuff.Serialize();
 
     return (stream.str());
 }
 
-void Position::UnSerialize(string val)
+void Position::UnSerialize(istringstream *stream)
 {
-    double gps[3];
-    int buff[3];
-    int ubuff[3];
+    Gps ref;
+    Vect buff;
+    Vect ubuff;
 
-    istringstream stream(val);
+    ref.UnSerialize(stream);
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    buff.UnSerialize(stream);
+    (*stream).ignore(1, GEO_SEP_CHAR);
+    ubuff.UnSerialize(stream);
 
-    stream >> gps[0];
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> gps[1];
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> gps[2];
-
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> buff[0];
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> buff[1];
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> buff[2];
-
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> ubuff[0];
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> ubuff[1];
-    stream.ignore(1, GEO_SEP_CHAR);
-    stream >> ubuff[2];
-
-    _ref = Gps(gps[0], gps[1], gps[2]);
-    _buff = Vect(buff[0], buff[1], buff[2]);
-    _uBuff = Vect(ubuff[0], ubuff[1], ubuff[2]);
+    _ref = ref;
+    _buff = buff;
+    _uBuff = ubuff;
 }
 
 bool Position::chooseUpdate()

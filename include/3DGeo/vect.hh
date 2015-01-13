@@ -9,6 +9,7 @@
  */
 
 #include <3DGeo/maths.hh>
+#include <3DGeo/ISerializable.hh>
 #include <iostream>
 
 class Orientation;
@@ -25,7 +26,7 @@ using namespace std;
  *  - Implements vectorial operations
  *  - Generic class to use in different contexts
  */
-class Vect
+class Vect : public ISerializable
 {
 private: // vars
     int _x;
@@ -138,6 +139,10 @@ public: // interface
      * \return z axis value
      */
     int Z() const;                                  // Get z axis value
+
+    virtual string Serialize();                 // Give string representation of the object
+    virtual void UnSerialize(istringstream *stream);                   // Load object from a stream
+    virtual void UnSerialize(string val) { ISerializable::UnSerialize(val); } // Load object from string
 };
 
 /*!
